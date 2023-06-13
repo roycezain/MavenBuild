@@ -3,12 +3,18 @@ name: Docker image Build Process
 on:
   workflow_dispatch:
   workflow_call:
+    secrets:
+       DOCKERHUB_USERNAME:
+         description: 'Docker Hub Username'
+         required: true
+       DOCKERHUB_TOKEN:
+         description: 'Docker Hub Access Token'
+         required: true
 
 jobs:
   docker:
     env:
      appName: "springboot-image"
-     DOCKERHUB_USERNAME: "dev0royce"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
