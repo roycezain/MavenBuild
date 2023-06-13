@@ -6,8 +6,11 @@ on:
 
 jobs:
   docker:
+    environment: roy
     env:
      appName: "springboot-image"
+     DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+     DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,11 +28,11 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.appName }}:latest
+          tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.appName }}:latest
